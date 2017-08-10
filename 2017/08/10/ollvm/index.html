@@ -6,14 +6,36 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="https://shaomi.github.io">
-  <title>Archives: 2017 | Hexo</title>
+  <title>Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
+  <meta name="description" content="##ollvm ѧϰ��¼
+@(�ҵĵ�һ���ʼǱ�)[ollvm, linux, Android]
+###����
+###�����
+����ollvm git��ַ��https://github.com/obfuscator-llvm/obfuscator.git
+����ollvm �ı�����Ҫʹ��cmake ��g++��������Ҫ��װ�ж�Ӧ�Ļ���
+����ollv">
+<meta property="og:type" content="article">
 <meta property="og:title" content="Hexo">
-<meta property="og:url" content="https://shaomi.github.io/archives/2017/index.html">
+<meta property="og:url" content="https://shaomi.github.io/2017/08/10/ollvm/index.html">
 <meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="##ollvm ѧϰ��¼
+@(�ҵĵ�һ���ʼǱ�)[ollvm, linux, Android]
+###����
+###�����
+����ollvm git��ַ��https://github.com/obfuscator-llvm/obfuscator.git
+����ollvm �ı�����Ҫʹ��cmake ��g++��������Ҫ��װ�ж�Ӧ�Ļ���
+����ollv">
+<meta property="og:updated_time" content="2017-08-10T04:20:21.654Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Hexo">
+<meta name="twitter:description" content="##ollvm ѧϰ��¼
+@(�ҵĵ�һ���ʼǱ�)[ollvm, linux, Android]
+###����
+###�����
+����ollvm git��ַ��https://github.com/obfuscator-llvm/obfuscator.git
+����ollvm �ı�����Ҫʹ��cmake ��g++��������Ҫ��װ�ж�Ӧ�Ļ���
+����ollv">
   
     <link rel="alternative" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
@@ -143,97 +165,89 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-ollvm" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>##ollvm ѧϰ��¼</p>
+<p>@(�ҵĵ�һ���ʼǱ�)[ollvm, linux, Android]</p>
+<p>###����</p>
+<p>###�����</p>
+<p>����ollvm git��ַ��<a href="https://github.com/obfuscator-llvm/obfuscator.git" target="_blank" rel="external">https://github.com/obfuscator-llvm/obfuscator.git</a></p>
+<p>����ollvm �ı�����Ҫʹ��cmake ��g++��������Ҫ��װ�ж�Ӧ�Ļ���</p>
+<p><strong>����ollvm</strong><br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">apt-get install cmake</div><div class="line">sudo apt-get install g++</div><div class="line"><span class="built_in">cd</span> obfuscator-llvm-3.4</div><div class="line">mkdir build</div><div class="line"><span class="built_in">cd</span> build</div><div class="line">cmake -DCMAKE_BUILD_TYPE:String=Release ../</div><div class="line">make �Cj4</div></pre></td></tr></table></figure></p>
+<blockquote>
+<p>make -j4��ʾΪʹ��4��������ͬʱ���б��룬������Ч�����߱�����Ч�ʡ����Ը���CPU�ĺ�������һ���̶ȵ��޸ġ�<br><code>�������ɺ󣬳�������build/bin��build/lib֮��</code><br>&ensp; </p>
+</blockquote>
+<p><strong>*���ڲ��ԵĴ���</strong><br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"stdio.h"</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"stdlib.h"</span></span></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc,<span class="keyword">char</span> **args)</span></span></div><div class="line">&#123;</div><div class="line">	<span class="keyword">int</span> a = <span class="number">1</span>;</div><div class="line">	<span class="keyword">int</span> b = <span class="number">2</span>;</div><div class="line">	<span class="keyword">int</span> c;</div><div class="line">	</div><div class="line">	<span class="keyword">if</span> (a &gt; b )</div><div class="line">	&#123;</div><div class="line">		c = a + b;</div><div class="line">		a = a + <span class="number">2</span>;</div><div class="line">		b = b + <span class="number">1</span>;</div><div class="line">	&#125;</div><div class="line">	<span class="keyword">else</span></div><div class="line">	&#123;</div><div class="line">		c = a * b;</div><div class="line">		a = a + <span class="number">1</span>;</div><div class="line">		b = b + <span class="number">2</span>;</div><div class="line">	&#125;</div><div class="line">	<span class="built_in">printf</span>(<span class="string">"%d\n"</span>,c);</div><div class="line">	<span class="built_in">printf</span>(<span class="string">"%d\n"</span>,a +b);</div><div class="line">	<span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>&ensp;<br><strong>linux �µ�ʹ�÷���</strong><br>�������Խ�ollvm������һ����������ʹ�÷����ܼ򵥡�<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div></pre></td><td class="code"><pre><div class="line">obfuscator-llvm-3.4/build/bin/clang  xx.c �Co xx  -mllvm -fla</div><div class="line">``` </div><div class="line">����Ч�����£�����û��ʹ��ollvm���߼�ͼ��</div><div class="line">![Alt text](./����.png)</div><div class="line"></div><div class="line">&amp;ensp; </div><div class="line">��������ʹ��ollvm``��``��</div><div class="line">![Alt text](./����ʹ��ollvm.png)</div><div class="line">&amp;ensp; </div><div class="line">��������ʹ��ollvm``��``��α���룺</div><div class="line">����![Alt text](./����ʹ��ollvm����α����.png)</div><div class="line"></div><div class="line"></div><div class="line">&amp;ensp; </div><div class="line">**����Android ndk��ʹ�÷���**</div><div class="line"></div><div class="line"></div><div class="line">&amp;ensp;</div><div class="line">**ollvm���õĲ���**</div><div class="line">����`ָ������`  -mllvm -sub</div><div class="line">����`��������α��`  -mllvm -bcf</div><div class="line">����`������ƽ̹��`  -mllvm -fla</div><div class="line">**�����ṹ��Ϸ**</div><div class="line"></div><div class="line">	-mllvm -bcf</div><div class="line">	-mllvm -perBCF=20: �����к����������ĸ�����20%��Ĭ��100%</div><div class="line">	-mllvm -boguscf-loop=3: �Ժ�����3�λ�����Ĭ��1��</div><div class="line">	-mllvm -boguscf-prob=40: �����鱻�����ĸ�����40%��Ĭ��30%</div><div class="line"></div><div class="line">&gt;**BCF(Bogus Control Flow)ģʽ**</div><div class="line">&gt;BCF�������п�����α��ģʽ�������־Ϳ������������ˡ�BCFģʽ���ڴ���ǰ���������������飬��ԭ������Ҳ���ܻᱻ��¡��Ȼ��������������ָ�</div><div class="line"></div><div class="line"></div><div class="line">###�Կ���ʽ</div><div class="line"></div><div class="line">**������ƽ̹��**</div><div class="line">	</div><div class="line">&gt; ���˶Կ�����ƽ̹�������⣬��ʵ����ͨ������������һ�������������Ҹ���Ԥ�����������������޸ĵĲο�ֵ���Գ������������̽��п��ơ�ʹ�ô�����ͼ�Ͽ������������˸��ֵķ�֧������ʵ�ϳ����������Ժ�ԭ�����̵�һ����</div><div class="line"></div><div class="line">������ͼ��ʾӦ�����°ɣ�</div><div class="line"></div><div class="line">ԭʼ�����̣�</div><div class="line"></div><div class="line">```flow</div><div class="line">st=&gt;start: Start</div><div class="line">end=&gt;end</div><div class="line">op1=&gt;operation: a=1,b=2,c</div><div class="line">op2=&gt;operation: c=a+b,a=a+2,b=b+1</div><div class="line">op3=&gt;operation: c=a*b,a=a+1,b=b+2</div><div class="line">op4=&gt;operation: print xxx</div><div class="line">cond=&gt;condition: a &gt; b?</div><div class="line"></div><div class="line">st-&gt;op1-&gt;cond</div><div class="line">cond(yes)-&gt;op2-&gt;op4</div><div class="line">cond(no)-&gt;op3-&gt;op4</div><div class="line">op4-&gt;end</div></pre></td></tr></table></figure></p>
+<p>&ensp;</p>
+<p>������ƽ̹����,idaת��������α�������£�<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="keyword">int</span> __<span class="function">cdecl <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">const</span> <span class="keyword">char</span> **argv, <span class="keyword">const</span> <span class="keyword">char</span> **envp)</span></span></div><div class="line">&#123;</div><div class="line">  <span class="keyword">signed</span> <span class="keyword">int</span> v4; <span class="comment">// [sp+28h] [bp-28h]@1</span></div><div class="line">  <span class="keyword">int</span> v5; <span class="comment">// [sp+2Ch] [bp-24h]@0</span></div><div class="line">  <span class="keyword">signed</span> <span class="keyword">int</span> v6; <span class="comment">// [sp+30h] [bp-20h]@1</span></div><div class="line">  <span class="keyword">signed</span> <span class="keyword">int</span> v7; <span class="comment">// [sp+34h] [bp-1Ch]@1</span></div><div class="line"></div><div class="line">  v7 = <span class="number">1</span>;</div><div class="line">  v6 = <span class="number">2</span>;</div><div class="line">  v4 = <span class="number">1882180348</span>;</div><div class="line">  <span class="keyword">while</span> ( <span class="number">1</span> )</div><div class="line">  &#123;</div><div class="line">    <span class="keyword">while</span> ( <span class="number">1</span> )</div><div class="line">    &#123;</div><div class="line">      <span class="keyword">while</span> ( v4 &lt;= <span class="number">1185293760</span> )</div><div class="line">      &#123;</div><div class="line">        <span class="keyword">if</span> ( v4 == <span class="number">-1540823099</span> )</div><div class="line">        &#123;</div><div class="line">          v5 = v6 * v7++;</div><div class="line">          v6 += <span class="number">2</span>;</div><div class="line">          v4 = <span class="number">1673064129</span>;</div><div class="line">        &#125;</div><div class="line">      &#125;</div><div class="line">      <span class="keyword">if</span> ( v4 != <span class="number">1185293761</span> )</div><div class="line">        <span class="keyword">break</span>;</div><div class="line">      v5 = v6 + v7;</div><div class="line">      v7 += <span class="number">2</span>;</div><div class="line">      ++v6;</div><div class="line">      v4 = <span class="number">1673064129</span>;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">if</span> ( �� == <span class="number">1673064129</span> )</div><div class="line">      <span class="keyword">break</span>;</div><div class="line">    <span class="keyword">if</span> ( v4 == <span class="number">1882180348</span> )</div><div class="line">    &#123;</div><div class="line">      envp = (<span class="keyword">const</span> <span class="keyword">char</span> **)<span class="number">1</span>;</div><div class="line">      v4 = <span class="number">-1540823099</span>;</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">  <span class="built_in">printf</span>(<span class="string">"%d\n"</span>, (<span class="keyword">unsigned</span> <span class="keyword">int</span>)v5, envp);</div><div class="line">  <span class="built_in">printf</span>(<span class="string">"%d\n"</span>, (<span class="keyword">unsigned</span> <span class="keyword">int</span>)(v6 + v7));</div><div class="line">  <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>&ensp;</p>
+<p>����ͼ�������������£�</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line">start=&gt;start: Start</div><div class="line">end=&gt;end</div><div class="line">st=&gt;start: Start</div><div class="line">end=&gt;end</div><div class="line">op0=&gt;operation: print xxx</div><div class="line">op1=&gt;operation: a=1,b=2,c</div><div class="line">op2=&gt;operation: c=a+b,a=a+2,b=b+1</div><div class="line">op3=&gt;operation: c=a*b,a=a+1,b=b+2</div><div class="line">op4=&gt;operation: x=20</div><div class="line">op5=&gt;operation: x=10</div><div class="line">op6=&gt;operation: x=2</div><div class="line"></div><div class="line">cond1=&gt;condition: x&lt;=5?</div><div class="line">cond2=&gt;condition: x!=5?</div><div class="line">cond3=&gt;condition: x==10?</div><div class="line">cond4=&gt;condition: x==2?</div><div class="line">cond5=&gt;condition: x==20?</div><div class="line"></div><div class="line">start-&gt;op1-&gt;op4-&gt;cond1</div><div class="line">cond1(yes)-&gt;cond4</div><div class="line">cond1(no)-&gt;cond2</div><div class="line">cond2(yes)-&gt;cond3</div><div class="line">cond2(no)-&gt;op2-&gt;op5</div><div class="line">cond3(yes)-&gt;op0-&gt;end</div><div class="line">cond3(no)-&gt;cond5</div><div class="line">cond4(yes)-&gt;op3-&gt;op5-&gt;cond1</div><div class="line">cond4(no)-&gt;cond1</div><div class="line">cond5(yes)-&gt;op6-&gt;cond1</div><div class="line">cond5(no)-&gt;cond1</div></pre></td></tr></table></figure>
+<p>��~��ͼ��Ȼ���ӣ���Ӧ��û���˵ģ�Ӧ�ð�…..�����Կ���ȷʵ�����˺ܶࡣ<br>����������֮����Ȼ���Ϳ��Կ���TSRC�����е������ˡ�<a href="https://security.tencent.com/index.php/blog/msg/112" target="_blank" rel="external">�����÷���ִ��ȥ��������ƽ̹����</a>���߹�����������˼��������<a href="https://blog.quarkslab.com/deobfuscation-recovering-an-ollvm-protected-program.html" target="_blank" rel="external">��Deobfuscation: recovering an OLLVM-protected program��</a></p>
+<p>�����µĻ���˼�룬����ͨ������������CFGͼƬ��ͳ�Ƴ�һЩ���ɡ�Ȼ�����ݹ��ɶԻ��������ļ�����patch�����޸ġ�<br>���ŵĹ������£�<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">1. �����Ŀ�ʼ��ַΪ���Եĵ�ַ </div><div class="line">2. ���Եĺ���Ϊ���ַ��� </div><div class="line">3. ����Ϊ���ַ����Ŀ�ΪԤ������ </div><div class="line">4. ����ΪԤ�������Ŀ�Ϊ��ʵ�� </div><div class="line">5. �޺��̵Ŀ�Ϊretn�� </div><div class="line">6. ʣ�µ�Ϊ���ÿ�</div></pre></td></tr></table></figure></p>
+<p>�������Լ���ʵ�飬���������Ǽ��������л�ԭ��ȷʵ���ܹ���������ԭ�ø�Դ����ʮ����������ȴ����������ͬ�ġ�</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">shaomi:~/����/ollvm$ python deflat.py test2 0x4004f0 </div><div class="line">*******************relevant blocks************************</div><div class="line">prologue:0x4004f0</div><div class="line">main_dispatcher:0x400527</div><div class="line">pre_dispatcher:0x400655</div><div class="line">retn:0x40061b</div><div class="line">relevant_blocks: [&apos;0x4005a0&apos;, &apos;0x4005c4&apos;, &apos;0x4005ef&apos;]</div><div class="line">*******************symbolic execution*********************</div><div class="line">-------------------dse 0x4005a0---------------------</div><div class="line">-------------------dse 0x4005c4---------------------</div><div class="line">-------------------dse 0x4005ef---------------------</div><div class="line">-------------------dse 0x4004f0---------------------</div><div class="line">************************flow******************************</div><div class="line">0x4005a0: [&apos;0x4005efL&apos;, &apos;0x4005c4L&apos;]</div><div class="line">0x4004f0: [&apos;0x4005a0L&apos;]</div><div class="line">0x40061b: []</div><div class="line">0x4005c4: [&apos;0x40061bL&apos;]</div><div class="line">0x4005ef: [&apos;0x40061bL&apos;]</div><div class="line">************************patch*****************************</div><div class="line">Successful! The recovered file: test2.recovered</div></pre></td></tr></table></figure>
+<p>�������Կ��������ݹ���ʶ�𣬵õ�����3�����飬����ԭ������ȷ�߼��Ƕ���һ�������ġ�</p>
+<p>…..δ������</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
       
       
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/Kaleidoscope/archives/2017" class="archive-year">2017</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/Kaleidoscope/2017/08/10/ollvm/" class="archive-article-date">
-  	<time datetime="2017-08-10T04:20:11.695Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-08-10</time>
-</a>
-        </div>
-    	 
-        <div class="article-info info-on-right">
-          
-          
+      
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/Kaleidoscope/2017/04/01/hello/" class="archive-article-date">
-  	<time datetime="2017-04-01T08:01:51.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-04-01</time>
-</a>
+<nav id="article-nav">
+  
+  
+    <a href="/Kaleidoscope/2017/04/01/hello/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">hello</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
+        
+        
+    </div>
+</aside>
+
+
+
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/Kaleidoscope/2017/04/01/hello/">hello</a>
-    </h1>
+  
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/Kaleidoscope/2017/03/24/hello-world/" class="archive-article-date">
-  	<time datetime="2017-03-24T03:24:38.150Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-03-24</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/Kaleidoscope/2017/03/24/hello-world/">Hello World</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
   
-  
-    </div></section>
-  
-
-    
 
 
           </div>
@@ -256,8 +270,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
