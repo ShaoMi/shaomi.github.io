@@ -21,7 +21,7 @@
 <meta property="og:image" content="https://shaomi.github.io/2017/08/10/ollvm/./正常.png">
 <meta property="og:image" content="https://shaomi.github.io/2017/08/10/ollvm/./简单使用ollvm.png">
 <meta property="og:image" content="https://shaomi.github.io/2017/08/10/ollvm/./简单使用ollvm后的伪代码.png">
-<meta property="og:updated_time" content="2017-08-10T07:47:02.000Z">
+<meta property="og:updated_time" content="2017-08-10T08:21:06.183Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="OLLVM 学习记录">
 <meta name="twitter:description" content="简介　　我也不知道怎么介绍，自己去看呗。https://github.com/obfuscator-llvm/obfuscator.git
@@ -190,6 +190,7 @@
 </code></pre><p>　　效果如下，正常没有使用ollvm的逻辑图：<br><img src="/2017/08/10/ollvm/./正常.png" alt="Alt text"></p>
 <p>&ensp;<br>　　简单使用ollvm<code>后</code>：<br><img src="/2017/08/10/ollvm/./简单使用ollvm.png" alt="Alt text"><br>&ensp;<br>　　简单使用ollvm<code>后</code>的伪代码：<br>　　<img src="/2017/08/10/ollvm/./简单使用ollvm后的伪代码.png" alt="Alt text"></p>
 <p>&ensp;<br><strong>结合Android ndk的使用方法</strong></p>
+<p>　　暂略，原理是与ndk结合进行编译，以后补充。</p>
 <p>&ensp;<br><strong>ollvm常用的参数</strong><br>　　<code>指令替代</code>  -mllvm -sub<br>　　<code>控制流程伪造</code>  -mllvm -bcf<br>　　<code>控制流平坦克</code>  -mllvm -fla<br><strong>命令结构入戏</strong></p>
 <pre><code>-mllvm -bcf
 -mllvm -perBCF=20: 对所有函数都混淆的概率是20%，默认100%
@@ -222,7 +223,7 @@ cond=>condition: a > b?
 st->op1->cond
 cond(yes)->op2->op4
 cond(no)->op3->op4
-op4->end</textarea><textarea id="flowchart-0-options" style="display: none">{"scale":1,"line-width":2,"line-length":50,"text-margin":10,"font-size":12}</textarea><script>  var code = document.getElementById("flowchart-0-code").value;  var options = JSON.parse(decodeURIComponent(document.getElementById("flowchart-0-options").value));  var diagram = flowchart.parse(code);  diagram.drawSVG("flowchart-0", options);</script><textarea id="flowchart-1-code" style="display: none">start=>start: Start
+op4->end</textarea><textarea id="flowchart-0-options" style="display: none">{"scale":10,"line-width":20,"line-length":50,"text-margin":100,"font-size":120}</textarea><script>  var code = document.getElementById("flowchart-0-code").value;  var options = JSON.parse(decodeURIComponent(document.getElementById("flowchart-0-options").value));  var diagram = flowchart.parse(code);  diagram.drawSVG("flowchart-0", options);</script><textarea id="flowchart-1-code" style="display: none">start=>start: Start
 end=>end
 st=>start: Start
 end=>end
@@ -249,7 +250,7 @@ cond3(no)->cond5
 cond4(yes)->op3->op5->cond1
 cond4(no)->cond1
 cond5(yes)->op6->cond1
-cond5(no)->cond1</=5?></textarea><textarea id="flowchart-1-options" style="display: none">{"scale":1,"line-width":2,"line-length":50,"text-margin":10,"font-size":12}</textarea><script>  var code = document.getElementById("flowchart-1-code").value;  var options = JSON.parse(decodeURIComponent(document.getElementById("flowchart-1-options").value));  var diagram = flowchart.parse(code);  diagram.drawSVG("flowchart-1", options);</script></p>
+cond5(no)->cond1</=5?></textarea><textarea id="flowchart-1-options" style="display: none">{"scale":10,"line-width":20,"line-length":50,"text-margin":100,"font-size":120}</textarea><script>  var code = document.getElementById("flowchart-1-code").value;  var options = JSON.parse(decodeURIComponent(document.getElementById("flowchart-1-options").value));  var diagram = flowchart.parse(code);  diagram.drawSVG("flowchart-1", options);</script></p>
 
       
 
