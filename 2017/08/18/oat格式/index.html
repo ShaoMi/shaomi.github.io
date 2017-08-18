@@ -6,14 +6,26 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="https://shaomi.github.io">
-  <title>Archives | Kaleidoscope</title>
+  <title>oat格式(1) | Kaleidoscope</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Kaleidoscope">
-<meta property="og:url" content="https://shaomi.github.io/archives/index.html">
+  <meta name="description" content="0x00 前言　　oat文件其实就是一种特殊的elf文件，更详细点说，就是拥有两个特殊段oatdata和oatexec的elf文件。而oatdata中则包含了dex的信息。　　因此在学习oat文件格式之前，最好对dex的文件格式，以及elf的文件格式有一定的了解。dex的格式虽然我也不是很熟，毕竟很久之前看学习的了，但还是有印象的。elf的话，最近尝试so文件修复的时候，也看了不少..所以都贴几个">
+<meta property="og:type" content="article">
+<meta property="og:title" content="oat格式(1)">
+<meta property="og:url" content="https://shaomi.github.io/2017/08/18/oat格式/index.html">
 <meta property="og:site_name" content="Kaleidoscope">
+<meta property="og:description" content="0x00 前言　　oat文件其实就是一种特殊的elf文件，更详细点说，就是拥有两个特殊段oatdata和oatexec的elf文件。而oatdata中则包含了dex的信息。　　因此在学习oat文件格式之前，最好对dex的文件格式，以及elf的文件格式有一定的了解。dex的格式虽然我也不是很熟，毕竟很久之前看学习的了，但还是有印象的。elf的话，最近尝试so文件修复的时候，也看了不少..所以都贴几个">
+<meta property="og:image" content="https://shaomi.github.io/2017/08/18/oat格式/./Elf结构.png">
+<meta property="og:image" content="https://shaomi.github.io/2017/08/18/oat格式/./oat.png">
+<meta property="og:image" content="https://shaomi.github.io/2017/08/18/oat格式/./oat1.png">
+<meta property="og:image" content="https://shaomi.github.io/2017/08/18/oat格式/./oat2.png">
+<meta property="og:image" content="https://shaomi.github.io/2017/08/18/oat格式/./oat3.png">
+<meta property="og:image" content="https://shaomi.github.io/2017/08/18/oat格式/./dex.png">
+<meta property="og:image" content="https://shaomi.github.io/2017/08/18/oat格式/./re.png">
+<meta property="og:updated_time" content="2017-08-18T10:02:00.329Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Kaleidoscope">
+<meta name="twitter:title" content="oat格式(1)">
+<meta name="twitter:description" content="0x00 前言　　oat文件其实就是一种特殊的elf文件，更详细点说，就是拥有两个特殊段oatdata和oatexec的elf文件。而oatdata中则包含了dex的信息。　　因此在学习oat文件格式之前，最好对dex的文件格式，以及elf的文件格式有一定的了解。dex的格式虽然我也不是很熟，毕竟很久之前看学习的了，但还是有印象的。elf的话，最近尝试so文件修复的时候，也看了不少..所以都贴几个">
+<meta name="twitter:image" content="https://shaomi.github.io/2017/08/18/oat格式/./Elf结构.png">
   
     <link rel="alternative" href="/atom.xml" title="Kaleidoscope" type="application/atom+xml">
   
@@ -143,36 +155,57 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
+            <article id="post-oat格式" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
   
+    <h1 class="article-title" itemprop="name">
+      oat格式(1)
+    </h1>
   
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2017" class="archive-year">2017</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/08/18/oat格式/" class="archive-article-date">
+
+        
+        <a href="/2017/08/18/oat格式/" class="archive-article-date">
   	<time datetime="2017-08-18T09:50:35.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-08-18</time>
 </a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/08/18/oat格式/">oat格式(1)</a>
-    </h1>
-  
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="0x00-前言"><a href="#0x00-前言" class="headerlink" title="0x00 前言"></a>0x00 前言</h3><p>　　oat文件其实就是一种特殊的elf文件，更详细点说，就是拥有两个特殊段oatdata和oatexec的elf文件。而oatdata中则包含了dex的信息。<br>　　因此在学习oat文件格式之前，最好对dex的文件格式，以及elf的文件格式有一定的了解。dex的格式虽然我也不是很熟，毕竟很久之前看学习的了，但还是有印象的。elf的话，最近尝试so文件修复的时候，也看了不少..所以都贴几个链接算了。</p>
+<blockquote>
+<p>dex：<br>　　<a href="http://bbs.pediy.com/thread-160260.htm" target="_blank" rel="external">http://bbs.pediy.com/thread-160260.htm</a><br>　　<a href="http://bbs.pediy.com/thread-208828.htm" target="_blank" rel="external">http://bbs.pediy.com/thread-208828.htm</a><br>  elf:<br>  　 <a href="https://en.wikipedia.org/wiki/Executable_and_Linkable_Format" target="_blank" rel="external">https://en.wikipedia.org/wiki/Executable_and_Linkable_Format</a></p>
+</blockquote>
+<a id="more"></a>
+<h3 id="0x01-瞎逼记录"><a href="#0x01-瞎逼记录" class="headerlink" title="0x01 瞎逼记录"></a>0x01 瞎逼记录</h3><p>　　首先看下一般的elf的结构，wiki百科的图如下：<br>　　　　　　　　　　　　<img src="/2017/08/18/oat格式/./Elf结构.png" alt="Alt text"> </p>
+<p>　　然后看下oat的文件结构，这是我根据罗升阳博客上的再画一次的图.<br>　　（感觉画一遍对理解有帮助23333）</p>
+<p><img src="/2017/08/18/oat格式/./oat.png" alt="Alt text"></p>
+<p>　　然后，我们直接使用010查看下oat文件的结构。由于我的辣鸡测试机只是4.3版本，4.4的那台太卡了，都不想开了。所以我用的oat文件是从这<a href="http://bbs.pediy.com/thread-206230.htm找的....这篇文章也对oat文件结构分析的很好。" target="_blank" rel="external">http://bbs.pediy.com/thread-206230.htm找的....这篇文章也对oat文件结构分析的很好。</a><br>　　使用010中的elf template对文件进行分析。可以得到如下结果<br>　　<img src="/2017/08/18/oat格式/./oat1.png" alt="Alt text"></p>
+<p>　　从结果可以看出，在dynamic symbol table中确实看到了其中包含了oatdata，oatexec和oatlastword。但是在section 却没有看到oatdata 和oatexec对应的section。其实点开dynamic symbol table详细看就会明白的了。<br>　　<img src="/2017/08/18/oat格式/./oat2.png" alt="Alt text"><br>　　这两个东东所在的section就是第4,5段，就是.rodata和.text段。<br><img src="/2017/08/18/oat格式/./oat3.png" alt="Alt text"><br>　　这是为什么呢？我又去看了下将oat文件加载到内存中源码。<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">bool</span> OatFile::ElfFileOpen(File* file, byte* requested_base, <span class="keyword">bool</span> writable, <span class="keyword">bool</span> executable) &#123;</div><div class="line">  elf_file_.reset(ElfFile::Open(file, writable, <span class="literal">true</span>));</div><div class="line">  <span class="keyword">if</span> (elf_file_.get() == <span class="literal">NULL</span>) &#123;</div><div class="line">    <span class="keyword">if</span> (writable) &#123;</div><div class="line">      PLOG(WARNING) &lt;&lt; <span class="string">"Failed to open ELF file for "</span> &lt;&lt; file-&gt;GetPath();</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> <span class="literal">false</span>;</div><div class="line">  &#125;</div><div class="line">  <span class="keyword">bool</span> loaded = elf_file_-&gt;Load(executable);</div><div class="line">  <span class="keyword">if</span> (!loaded) &#123;</div><div class="line">    LOG(WARNING) &lt;&lt; <span class="string">"Failed to load ELF file "</span> &lt;&lt; file-&gt;GetPath();</div><div class="line">    <span class="keyword">return</span> <span class="literal">false</span>;</div><div class="line">  &#125;</div><div class="line">  begin_ = elf_file_-&gt;FindDynamicSymbolAddress(<span class="string">"oatdata"</span>);</div><div class="line">  <span class="keyword">if</span> (begin_ == <span class="literal">NULL</span>) &#123;</div><div class="line">    LOG(WARNING) &lt;&lt; <span class="string">"Failed to find oatdata symbol in "</span> &lt;&lt; file-&gt;GetPath();</div><div class="line">    <span class="keyword">return</span> <span class="literal">false</span>;</div><div class="line">  &#125;</div><div class="line">  <span class="keyword">if</span> (requested_base != <span class="literal">NULL</span> &amp;&amp; begin_ != requested_base) &#123;</div><div class="line">    <span class="built_in">std</span>::<span class="built_in">string</span> maps;</div><div class="line">    ReadFileToString(<span class="string">"/proc/self/maps"</span>, &amp;maps);</div><div class="line">    LOG(WARNING) &lt;&lt; <span class="string">"Failed to find oatdata symbol at expected address: oatdata="</span></div><div class="line">                 &lt;&lt; <span class="keyword">reinterpret_cast</span>&lt;<span class="keyword">const</span> <span class="keyword">void</span>*&gt;(begin_) &lt;&lt; <span class="string">" != expected="</span></div><div class="line">                 &lt;&lt; <span class="keyword">reinterpret_cast</span>&lt;<span class="keyword">const</span> <span class="keyword">void</span>*&gt;(requested_base)</div><div class="line">                 &lt;&lt; <span class="string">" /proc/self/maps:\n"</span> &lt;&lt; maps;</div><div class="line">    <span class="keyword">return</span> <span class="literal">false</span>;</div><div class="line">  &#125;</div><div class="line">  end_ = elf_file_-&gt;FindDynamicSymbolAddress(<span class="string">"oatlastword"</span>);</div><div class="line">  <span class="keyword">if</span> (end_ == <span class="literal">NULL</span>) &#123;</div><div class="line">    LOG(WARNING) &lt;&lt; <span class="string">"Failed to find oatlastword symbol in "</span> &lt;&lt; file-&gt;GetPath();</div><div class="line">    <span class="keyword">return</span> <span class="literal">false</span>;</div><div class="line">  &#125;</div><div class="line">  <span class="comment">// Readjust to be non-inclusive upper bound.</span></div><div class="line">  end_ += <span class="keyword">sizeof</span>(<span class="keyword">uint32_t</span>);</div><div class="line">  <span class="keyword">return</span> Setup();</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>　　看完就可以发现，其实在加载的时候，也是根据dynamic symbol来寻找的。所以我个人认为呀，那个oatdata和oatexec 段的命名，只是为了可以更加容易地理解在oat文件中是有两个section专门来保存oatdata和oatexec的内容，而不是有两个叫做oatdata和oatexec的section。<br>&ensp;<br>　　从整体上看完了，接着就仔细看下这些“与众不同”的地方，个人感觉这之后的才算是真正的oat格式。</p>
+<p> 　　首先，“oatdata”段中，第一部分是oat头，可以从源码中可以看出oat头的结构。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">class</span> <span class="title">PACKED</span><span class="params">(<span class="number">4</span>)</span> OatHeader </span>&#123;</div><div class="line"> <span class="keyword">public</span>:</div><div class="line">  ...</div><div class="line"></div><div class="line"> <span class="keyword">private</span>:</div><div class="line">  <span class="keyword">uint8_t</span> magic_[<span class="number">4</span>];             <span class="comment">//魔数，为“oat\n”</span></div><div class="line">  <span class="keyword">uint8_t</span> version_[<span class="number">4</span>];           <span class="comment">//oat版本号</span></div><div class="line">  <span class="keyword">uint32_t</span> adler32_checksum_;    <span class="comment">//oat头校验和</span></div><div class="line"></div><div class="line">  InstructionSet instruction_set_;      </div><div class="line">  <span class="comment">//本地机指令集，有四种取值，分别为  kArm(1)、kThumb2(2)、kX86(3)和kMips(4)</span></div><div class="line">  <span class="keyword">uint32_t</span> dex_file_count_;            <span class="comment">//包含的dex文件数</span></div><div class="line">  <span class="keyword">uint32_t</span> executable_offset_;         <span class="comment">//oatexec相对oatdata段的偏移</span></div><div class="line">  </div><div class="line">  <span class="keyword">uint32_t</span> interpreter_to_interpreter_bridge_offset_;    <span class="comment">//为0</span></div><div class="line">  <span class="keyword">uint32_t</span> interpreter_to_compiled_code_bridge_offset_;   <span class="comment">//为0</span></div><div class="line">  <span class="keyword">uint32_t</span> jni_dlsym_lookup_offset_;    <span class="comment">//为0</span></div><div class="line">  <span class="keyword">uint32_t</span> portable_resolution_trampoline_offset_;    <span class="comment">//为0</span></div><div class="line">  <span class="keyword">uint32_t</span> portable_to_interpreter_bridge_offset_;    <span class="comment">//为0</span></div><div class="line">  <span class="keyword">uint32_t</span> quick_resolution_trampoline_offset_;      <span class="comment">//为0</span></div><div class="line">  <span class="keyword">uint32_t</span> quick_to_interpreter_bridge_offset_;      <span class="comment">//为0</span></div><div class="line">  <span class="comment">//由于每个程序都会依赖boot.art文件，所以为了节省空间，每一个由dex生成的oat文件的以上7项都为0</span></div><div class="line"></div><div class="line"></div><div class="line">  <span class="keyword">uint32_t</span> image_file_location_oat_checksum_;      </div><div class="line">  <span class="comment">//创建的image空间的oat文件的oatdata的校验和</span></div><div class="line">  <span class="keyword">uint32_t</span> image_file_location_oat_data_begin_;</div><div class="line">  <span class="comment">//创建的image空间的oat文件的oatdata的起始偏移</span></div><div class="line">  <span class="keyword">uint32_t</span> image_file_location_size_;</div><div class="line">  <span class="comment">//创建的image空间的大小</span></div><div class="line">  <span class="keyword">uint8_t</span> image_file_location_data_[<span class="number">0</span>];  </div><div class="line">  <span class="comment">//创建的image空间的起始偏移</span></div><div class="line"></div><div class="line">  DISALLOW_COPY_AND_ASSIGN(OatHeader);</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+<p>　　在oat头之后，紧接着的就是image空间，这也是可以从源码中看出的。<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">....</div><div class="line"><span class="keyword">const</span> byte* oat = Begin();</div><div class="line">oat += <span class="keyword">sizeof</span>(OatHeader);</div><div class="line">....</div><div class="line">oat += GetOatHeader().GetImageFileLocationSize();</div><div class="line">....</div></pre></td></tr></table></figure></p>
+<p>　　在老罗的博客文章中，header接着应该就是一堆dex相关信息。但是在我找到的这个oat文件中，header头之后还存在一段数据‘ key_value<em>store</em>’。这应该是不同版本造成的。上面的oat代码是4.4源码的，但我拿到的这个样本是在5.1.1的，而在5.1.1中，源码也发生了点不同：<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">class</span> <span class="title">PACKED</span><span class="params">(<span class="number">4</span>)</span> OatHeader </span>&#123;</div><div class="line"> <span class="keyword">public</span>:</div><div class="line">  ...</div><div class="line"></div><div class="line"> <span class="keyword">private</span>:</div><div class="line">  <span class="keyword">uint8_t</span> magic_[<span class="number">4</span>];            </div><div class="line">  <span class="keyword">uint8_t</span> version_[<span class="number">4</span>];          </div><div class="line">  <span class="keyword">uint32_t</span> adler32_checksum_;  </div><div class="line">  ...</div><div class="line">  <span class="keyword">uint32_t</span> interpreter_to_interpreter_bridge_offset_;</div><div class="line">  <span class="keyword">uint32_t</span> interpreter_to_compiled_code_bridge_offset_;</div><div class="line">  <span class="keyword">uint32_t</span> jni_dlsym_lookup_offset_;</div><div class="line">  <span class="keyword">uint32_t</span> portable_imt_conflict_trampoline_offset_; </div><div class="line">  <span class="keyword">uint32_t</span> portable_resolution_trampoline_offset_; </div><div class="line">  <span class="keyword">uint32_t</span> portable_to_interpreter_bridge_offset_; </div><div class="line">  <span class="keyword">uint32_t</span> quick_generic_jni_trampoline_offset_; </div><div class="line">  <span class="keyword">uint32_t</span> quick_imt_conflict_trampoline_offset_; </div><div class="line">  <span class="keyword">uint32_t</span> quick_resolution_trampoline_offset_; </div><div class="line">  <span class="keyword">uint32_t</span> quick_to_interpreter_bridge_offset_;</div><div class="line">  </div><div class="line">  <span class="keyword">int32_t</span> image_patch_delta_;</div><div class="line">  </div><div class="line">  <span class="keyword">uint32_t</span> image_file_location_oat_checksum_;      </div><div class="line">  <span class="keyword">uint32_t</span> image_file_location_oat_data_begin_;</div><div class="line">  </div><div class="line">  <span class="keyword">uint32_t</span> key_value_store_size_; </div><div class="line">  <span class="keyword">uint8_t</span> key_value_store_[<span class="number">0</span>]; </div><div class="line">  </div><div class="line">  DISALLOW_COPY_AND_ASSIGN(OatHeader);</div><div class="line">&#125;;</div></pre></td></tr></table></figure></p>
+<p>&ensp;<br>接着就是dex的信息了，dex其中包括的信息有：</p>
+<blockquote>
+<p>dex_file_location_size<br>dex_file_location_data<br>dex_file_checksum<br>dex_file_offset<br>methods_offsets_pointer</p>
+</blockquote>
+<p>　　根据这几个信息，就可以定位到dex文件的位置，然后再根据dex文件结构，提取到了dex文件的大小，就可以从oat文件中提取出dex文件。</p>
+<p>　　比如我拿到的这个oat文件的dex_file_offset的值为0x938，而这个段的偏移为0x1000，那么dex的地址就为0x1938。如下图：<br><img src="/2017/08/18/oat格式/./dex.png" alt="Alt text"><br>　　然后根据dex文件结构，得到dex的文件大小所在的偏移为0x20，在这个例子中则是0x1938+20 = 0x1958。得到大小为0x98128。最后根据其实地址为0x1938，大小为0x98128，dump下就可以获得dex文件。</p>
+<p><img src="/2017/08/18/oat格式/./re.png" alt="Alt text"></p>
+<p>　　其实oat格式的知识还不只这些，但这里仅仅是从大体结构了解到dump出dex文件。</p>
 
-        <div class="article-info info-on-right">
-          
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
@@ -184,88 +217,53 @@
 		</ul>
 	</div>
 
-          
+      
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/08/10/ollvm/" class="archive-article-date">
-  	<time datetime="2017-08-10T07:42:58.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-08-10</time>
-</a>
+<nav id="article-nav">
+  
+  
+    <a href="/2017/08/10/ollvm/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">OLLVM 学习记录（大坑，慢慢填）</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
+        
+        
+    </div>
+</aside>
+
+
+
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/08/10/ollvm/">OLLVM 学习记录（大坑，慢慢填）</a>
-    </h1>
+  
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Android</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">linux</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/08/09/first/" class="archive-article-date">
-  	<time datetime="2017-08-09T04:43:37.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-08-09</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/08/09/first/">first to say</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
   
-  
-    </div></section>
-  
-
-    
 
 
           </div>
@@ -288,8 +286,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
