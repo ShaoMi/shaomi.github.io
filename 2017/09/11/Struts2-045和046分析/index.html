@@ -6,30 +6,30 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="https://shaomi.github.io">
-  <title>OLLVM 学习记录（大坑，慢慢填） | Kaleidoscope</title>
+  <title>Struts2-045和046分析 | Kaleidoscope</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="简介　　我也不知道怎么介绍，自己去看呗。https://github.com/obfuscator-llvm/obfuscator.git
-搭建方法　　ollvm git地址：https://github.com/obfuscator-llvm/obfuscator.git
-　　ollvm 的编译需要使用cmake ，g++，因此需要先装有对应的环境">
+  <meta name="description" content="最近052出来后，想起之前算是比较完整地分析过045，所以重新整理下罢了
+0x00 漏洞描述　　　直接摘选cve的描述：　　　It is possible to perform a RCE attack with a malicious Content-Type value. If the Content-Type value isn’t valid an exception is throw">
 <meta property="og:type" content="article">
-<meta property="og:title" content="OLLVM 学习记录（大坑，慢慢填）">
-<meta property="og:url" content="https://shaomi.github.io/2017/08/10/ollvm/index.html">
+<meta property="og:title" content="Struts2-045和046分析">
+<meta property="og:url" content="https://shaomi.github.io/2017/09/11/Struts2-045和046分析/index.html">
 <meta property="og:site_name" content="Kaleidoscope">
-<meta property="og:description" content="简介　　我也不知道怎么介绍，自己去看呗。https://github.com/obfuscator-llvm/obfuscator.git
-搭建方法　　ollvm git地址：https://github.com/obfuscator-llvm/obfuscator.git
-　　ollvm 的编译需要使用cmake ，g++，因此需要先装有对应的环境">
-<meta property="og:image" content="https://shaomi.github.io/2017/08/10/ollvm/./正常.png">
-<meta property="og:image" content="https://shaomi.github.io/2017/08/10/ollvm/./简单使用ollvm.png">
-<meta property="og:image" content="https://shaomi.github.io/2017/08/10/ollvm/./简单使用ollvm后的伪代码.png">
-<meta property="og:image" content="https://shaomi.github.io/2017/08/10/ollvm/./原始流程图.png">
-<meta property="og:image" content="https://shaomi.github.io/2017/08/10/ollvm/./混淆后流程图.png">
-<meta property="og:updated_time" content="2017-08-11T09:40:24.584Z">
+<meta property="og:description" content="最近052出来后，想起之前算是比较完整地分析过045，所以重新整理下罢了
+0x00 漏洞描述　　　直接摘选cve的描述：　　　It is possible to perform a RCE attack with a malicious Content-Type value. If the Content-Type value isn’t valid an exception is throw">
+<meta property="og:image" content="https://shaomi.github.io/2017/09/11/Struts2-045和046分析/./1505113522218.png">
+<meta property="og:image" content="https://shaomi.github.io/2017/09/11/Struts2-045和046分析/./1505113614229.png">
+<meta property="og:image" content="https://shaomi.github.io/2017/09/11/Struts2-045和046分析/./1505113778984.png">
+<meta property="og:image" content="https://shaomi.github.io/2017/09/11/Struts2-045和046分析/./1505114058719.png">
+<meta property="og:image" content="https://shaomi.github.io/2017/09/11/Struts2-045和046分析/./1505114102104.png">
+<meta property="og:image" content="https://shaomi.github.io/2017/09/11/Struts2-045和046分析/./1505114107282.png">
+<meta property="og:image" content="https://shaomi.github.io/2017/09/11/Struts2-045和046分析/./1505114125419.png">
+<meta property="og:image" content="https://shaomi.github.io/2017/09/11/Struts2-045和046分析/./1505114128852.png">
+<meta property="og:updated_time" content="2017-09-11T08:40:33.720Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="OLLVM 学习记录（大坑，慢慢填）">
-<meta name="twitter:description" content="简介　　我也不知道怎么介绍，自己去看呗。https://github.com/obfuscator-llvm/obfuscator.git
-搭建方法　　ollvm git地址：https://github.com/obfuscator-llvm/obfuscator.git
-　　ollvm 的编译需要使用cmake ，g++，因此需要先装有对应的环境">
-<meta name="twitter:image" content="https://shaomi.github.io/2017/08/10/ollvm/./正常.png">
+<meta name="twitter:title" content="Struts2-045和046分析">
+<meta name="twitter:description" content="最近052出来后，想起之前算是比较完整地分析过045，所以重新整理下罢了
+0x00 漏洞描述　　　直接摘选cve的描述：　　　It is possible to perform a RCE attack with a malicious Content-Type value. If the Content-Type value isn’t valid an exception is throw">
+<meta name="twitter:image" content="https://shaomi.github.io/2017/09/11/Struts2-045和046分析/./1505113522218.png">
   
     <link rel="alternative" href="/atom.xml" title="Kaleidoscope" type="application/atom+xml">
   
@@ -159,65 +159,52 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-ollvm" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-Struts2-045和046分析" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      OLLVM 学习记录（大坑，慢慢填）
+      Struts2-045和046分析
     </h1>
   
 
         
-        <a href="/2017/08/10/ollvm/" class="archive-article-date">
-  	<time datetime="2017-08-10T07:42:58.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-08-10</time>
+        <a href="/2017/09/11/Struts2-045和046分析/" class="archive-article-date">
+  	<time datetime="2017-09-11T08:40:15.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-11</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h3 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h3><p>　　我也不知道怎么介绍，自己去看呗。<a href="https://github.com/obfuscator-llvm/obfuscator.git" target="_blank" rel="external">https://github.com/obfuscator-llvm/obfuscator.git</a></p>
-<h3 id="搭建方法"><a href="#搭建方法" class="headerlink" title="搭建方法"></a>搭建方法</h3><p>　　ollvm git地址：<a href="https://github.com/obfuscator-llvm/obfuscator.git" target="_blank" rel="external">https://github.com/obfuscator-llvm/obfuscator.git</a></p>
-<p>　　ollvm 的编译需要使用cmake ，g++，因此需要先装有对应的环境<br><a id="more"></a></p>
-<p><strong>编译ollvm</strong><br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">apt-get install cmake</div><div class="line">sudo apt-get install g++</div><div class="line"><span class="built_in">cd</span> obfuscator-llvm-3.4</div><div class="line">mkdir build</div><div class="line"><span class="built_in">cd</span> build</div><div class="line">cmake -DCMAKE_BUILD_TYPE:String=Release ../</div><div class="line">make –j4</div></pre></td></tr></table></figure></p>
-<blockquote>
-<p>make -j4表示为使用4个编译器同时进行编译，可以有效地提高编译的效率。可以根据CPU的核数进行一定程度的修改。<br><code>编译完成后，程序都在build/bin和build/lib之中</code><br>&ensp; </p>
+        <p>　　最近052出来后，想起之前算是比较完整地分析过045，所以重新整理下罢了</p>
+<h3 id="0x00-漏洞描述"><a href="#0x00-漏洞描述" class="headerlink" title="0x00 漏洞描述"></a>0x00 漏洞描述</h3><p>　　　直接摘选cve的描述：<br>　　　It is possible to perform a RCE attack with a malicious Content-Type value. If the <code>Content-Type</code> value isn’t valid an exception is thrown which is then used to display an error message to a user.</p>
+<a id="more"></a>
+<h3 id="0x01POC关键点"><a href="#0x01POC关键点" class="headerlink" title="0x01POC关键点"></a>0x01POC关键点</h3><blockquote>
+<p>Content-Type =<br><code>%{(#nike=&#39;multipart/form-data&#39;).</code><br>(#dm=@ognl.OgnlContext@DEFAULT_MEMBER_ACCESS).<br>(#_memberAccess?(#_memberAccess=#dm):((#container=#context[‘com.opensymphony.xwork2.ActionContext.container’]).(#ognlUtil=#container.getInstance(@com.opensymphony.xwork2.ognl.OgnlUtil@class)).(#ognlUtil.getExcludedPackageNames().clear()).(#ognlUtil.getExcludedClasses().clear()).(#context.setMemberAccess(#dm)))).(#cmd=’whoami’).(#iswin=(@java.lang.System@getProperty(‘os.name’).toLowerCase().contains(‘win’))).(#cmds=(#iswin?{‘cmd.exe’,’/c’,#cmd}:{‘/bin/bash’,’-c’,#cmd})).(#p=new java.lang.ProcessBuilder(#cmds)).(#p.redirectErrorStream(true)).(#process=#p.start()).(#ros=(@org.apache.struts2.ServletActionContext@getResponse().getOutputStream())).(@org.apache.commons.io.IOUtils@copy(#process.getInputStream(),#ros)).(#ros.flush())}</p>
 </blockquote>
-<p><strong>用于测试的代码</strong><br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"stdio.h"</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"stdlib.h"</span></span></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc,<span class="keyword">char</span> **args)</span></span></div><div class="line">&#123;</div><div class="line">	<span class="keyword">int</span> a = <span class="number">1</span>;</div><div class="line">	<span class="keyword">int</span> b = <span class="number">2</span>;</div><div class="line">	<span class="keyword">int</span> c;</div><div class="line">	</div><div class="line">	<span class="keyword">if</span> (a &gt; b )</div><div class="line">	&#123;</div><div class="line">		c = a + b;</div><div class="line">		a = a + <span class="number">2</span>;</div><div class="line">		b = b + <span class="number">1</span>;</div><div class="line">	&#125;</div><div class="line">	<span class="keyword">else</span></div><div class="line">	&#123;</div><div class="line">		c = a * b;</div><div class="line">		a = a + <span class="number">1</span>;</div><div class="line">		b = b + <span class="number">2</span>;</div><div class="line">	&#125;</div><div class="line">	<span class="built_in">printf</span>(<span class="string">"%d\n"</span>,c);</div><div class="line">	<span class="built_in">printf</span>(<span class="string">"%d\n"</span>,a +b);</div><div class="line">	<span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>&ensp;<br><strong>linux 下的使用方法</strong><br>　　可以将ollvm理解成一个编译器，使用方法很简单。</p>
-<pre><code>obfuscator-llvm-3.4/build/bin/clang  xx.c –o xx  -mllvm -fla
-</code></pre><p>　　效果如下，正常没有使用ollvm的逻辑图：<br><img src="/2017/08/10/ollvm/./正常.png" alt="Alt text"></p>
-<p>&ensp;<br>　　简单使用ollvm<code>后</code>：<br><img src="/2017/08/10/ollvm/./简单使用ollvm.png" alt="Alt text"><br>&ensp;<br>　　简单使用ollvm<code>后</code>的伪代码：<br>　　<img src="/2017/08/10/ollvm/./简单使用ollvm后的伪代码.png" alt="Alt text"></p>
-<p>&ensp;<br><strong>结合Android ndk的使用方法</strong></p>
-<p>　　暂略，原理是与ndk结合进行编译，以后补充。</p>
-<p>&ensp;<br><strong>ollvm常用的参数</strong><br>　　<code>指令替代</code>  -mllvm -sub<br>　　<code>控制流程伪造</code>  -mllvm -bcf<br>　　<code>控制流平坦克</code>  -mllvm -fla<br><strong>命令结构入戏</strong></p>
-<pre><code>-mllvm -bcf
--mllvm -perBCF=20: 对所有函数都混淆的概率是20%，默认100%
--mllvm -boguscf-loop=3: 对函数做3次混淆，默认1次
--mllvm -boguscf-prob=40: 代码块被混淆的概率是40%，默认30%
-</code></pre><blockquote>
-<p><strong>BCF(Bogus Control Flow)模式</strong><br>BCF中文名叫控制流伪造模式，从名字就可以理解大概了。BCF模式会在代码前后随机插入代码块，而原代码块也可能会被克隆，然后随机插入垃圾指令。</p>
-</blockquote>
-<h3 id="对抗方式"><a href="#对抗方式" class="headerlink" title="对抗方式"></a>对抗方式</h3><p><strong>控制流平坦化</strong></p>
-<blockquote>
-<p>个人对控制流平坦化的理解，其实就是通过给程序增添一个控制器，并且根据预定或者是在运行中修改的参考值来对程序的整个流程进行控制。使得从流程图上看，程序增添了各种的分支，但事实上程序的流程仍和原本流程的一样。</p>
-</blockquote>
-<p>用流程图表示应该如下吧：</p>
-<p>原始的流程：</p>
-<p><img src="/2017/08/10/ollvm/./原始流程图.png" alt="Alt text"></p>
-<p>&ensp;</p>
-<p>控制流平坦化后,ida转化出来的伪代码如下：<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="keyword">int</span> __<span class="function">cdecl <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">const</span> <span class="keyword">char</span> **argv, <span class="keyword">const</span> <span class="keyword">char</span> **envp)</span></span></div><div class="line">&#123;</div><div class="line">  <span class="keyword">signed</span> <span class="keyword">int</span> v4; <span class="comment">// [sp+28h] [bp-28h]@1</span></div><div class="line">  <span class="keyword">int</span> v5; <span class="comment">// [sp+2Ch] [bp-24h]@0</span></div><div class="line">  <span class="keyword">signed</span> <span class="keyword">int</span> v6; <span class="comment">// [sp+30h] [bp-20h]@1</span></div><div class="line">  <span class="keyword">signed</span> <span class="keyword">int</span> v7; <span class="comment">// [sp+34h] [bp-1Ch]@1</span></div><div class="line"></div><div class="line">  v7 = <span class="number">1</span>;</div><div class="line">  v6 = <span class="number">2</span>;</div><div class="line">  v4 = <span class="number">1882180348</span>;</div><div class="line">  <span class="keyword">while</span> ( <span class="number">1</span> )</div><div class="line">  &#123;</div><div class="line">    <span class="keyword">while</span> ( <span class="number">1</span> )</div><div class="line">    &#123;</div><div class="line">      <span class="keyword">while</span> ( v4 &lt;= <span class="number">1185293760</span> )</div><div class="line">      &#123;</div><div class="line">        <span class="keyword">if</span> ( v4 == <span class="number">-1540823099</span> )</div><div class="line">        &#123;</div><div class="line">          v5 = v6 * v7++;</div><div class="line">          v6 += <span class="number">2</span>;</div><div class="line">          v4 = <span class="number">1673064129</span>;</div><div class="line">        &#125;</div><div class="line">      &#125;</div><div class="line">      <span class="keyword">if</span> ( v4 != <span class="number">1185293761</span> )</div><div class="line">        <span class="keyword">break</span>;</div><div class="line">      v5 = v6 + v7;</div><div class="line">      v7 += <span class="number">2</span>;</div><div class="line">      ++v6;</div><div class="line">      v4 = <span class="number">1673064129</span>;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">if</span> ( ； == <span class="number">1673064129</span> )</div><div class="line">      <span class="keyword">break</span>;</div><div class="line">    <span class="keyword">if</span> ( v4 == <span class="number">1882180348</span> )</div><div class="line">    &#123;</div><div class="line">      envp = (<span class="keyword">const</span> <span class="keyword">char</span> **)<span class="number">1</span>;</div><div class="line">      v4 = <span class="number">-1540823099</span>;</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">  <span class="built_in">printf</span>(<span class="string">"%d\n"</span>, (<span class="keyword">unsigned</span> <span class="keyword">int</span>)v5, envp);</div><div class="line">  <span class="built_in">printf</span>(<span class="string">"%d\n"</span>, (<span class="keyword">unsigned</span> <span class="keyword">int</span>)(v6 + v7));</div><div class="line">  <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>&ensp;</p>
-<p>流程图可以理解成如下：<br><img src="/2017/08/10/ollvm/./混淆后流程图.png" alt="Alt text"></p>
-<p>厄~这图虽然复杂，但应该没错了的，应该吧…..但可以看到确实复杂了很多。<br>初步理解了之后，然后就可以看下TSRC博客中的文章了。<a href="https://security.tencent.com/index.php/blog/msg/112" target="_blank" rel="external">《利用符号执行去除控制流平坦化》</a>或者国外的提出该思想的文章<a href="https://blog.quarkslab.com/deobfuscation-recovering-an-ollvm-protected-program.html" target="_blank" rel="external">《Deobfuscation: recovering an OLLVM-protected program》</a></p>
-<p>该文章的基本思想，就是通过分析程序的CFG图片，统计出一些规律。然后根据规律对混淆过的文件进行patch进行修改。<br>大概的规律如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">1. 函数的开始地址为序言的地址 </div><div class="line">2. 序言的后继为主分发器 </div><div class="line">3. 后继为主分发器的块为预处理器 </div><div class="line">4. 后继为预处理器的块为真实块 </div><div class="line">5. 无后继的块为retn块 </div><div class="line">6. 剩下的为无用块</div></pre></td></tr></table></figure></p>
-<p>根据我自己的实验，根据上面那几点来进行还原，确实是能够将程序还原得跟源程序十分相近，但却还是有所不同的。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">shaomi:~/桌面/ollvm$ python deflat.py test2 0x4004f0 </div><div class="line">*******************relevant blocks************************</div><div class="line">prologue:0x4004f0</div><div class="line">main_dispatcher:0x400527</div><div class="line">pre_dispatcher:0x400655</div><div class="line">retn:0x40061b</div><div class="line">relevant_blocks: [&apos;0x4005a0&apos;, &apos;0x4005c4&apos;, &apos;0x4005ef&apos;]</div><div class="line">*******************symbolic execution*********************</div><div class="line">-------------------dse 0x4005a0---------------------</div><div class="line">-------------------dse 0x4005c4---------------------</div><div class="line">-------------------dse 0x4005ef---------------------</div><div class="line">-------------------dse 0x4004f0---------------------</div><div class="line">************************flow******************************</div><div class="line">0x4005a0: [&apos;0x4005efL&apos;, &apos;0x4005c4L&apos;]</div><div class="line">0x4004f0: [&apos;0x4005a0L&apos;]</div><div class="line">0x40061b: []</div><div class="line">0x4005c4: [&apos;0x40061bL&apos;]</div><div class="line">0x4005ef: [&apos;0x40061bL&apos;]</div><div class="line">************************patch*****************************</div><div class="line">Successful! The recovered file: test2.recovered</div></pre></td></tr></table></figure>
-<p>这里可以看出，根据规则识别，得到的是3个主块，相比原来的正确逻辑是多了一个主块的。</p>
-<p>唉~…..未完待续吧，算是理解了，但不知道怎么写下去了。</p>
+<h3 id="0x02漏洞分析"><a href="#0x02漏洞分析" class="headerlink" title="0x02漏洞分析"></a>0x02漏洞分析</h3><p>　　首先，根据漏洞描述，我们可以看到有几个关键信息：</p>
+<ol>
+<li>恶意的<code>Content-Type</code></li>
+<li><code>Content-Type</code>无效</li>
+<li>异常抛出错误信息<br>然后打开POC，发现确实如描述一样有异常信息抛出。<br><img src="/2017/09/11/Struts2-045和046分析/./1505113522218.png" alt="Alt text"><br>　　由于确实如漏洞描述一样，有异常信息抛出，因此初步猜测该异常触发点就是漏洞触发点。(<code>FileUploadBase.java:948</code>)<br>　　接着就是根据异常跟踪审阅代码。<br><code>FileUploadBase.java: FileItemIteratorImpl</code>函数<br><img src="/2017/09/11/Struts2-045和046分析/./1505113614229.png" alt="Alt text"><br>&ensp;<br>　　根据代码可以看出，抛出异常的原因是Content-Type不存在，或者Content-Type并不是以“<code>multipart/</code>”开头。这符合漏洞描述的第二点，Content-Type 无效。由此可以确定该异常就是漏洞触发点。<br>　　进一步往上跟踪代码，在(<code>PrepareOperations.java wrapRequest</code>函数)，发现了另外一个判断点，Content-Type必须包含“<code>multipart/form-data</code>”。<br><img src="/2017/09/11/Struts2-045和046分析/./1505113778984.png" alt="Alt text"><br>&ensp;<br>　　至此，再没有发现有其他关键的判断点。因此得出，若要触发该异常，从而达到触发漏洞的效果，必须要满足两个条件：</li>
+<li>Content-Type中含有“multipart/form-data”</li>
+<li>Content-Type不以“multipart/”开头</li>
+</ol>
+<p>&ensp;<br>　　接下来的就是漏洞如何利用的，或者说是如何达到命令执行的。由于抛出异常的代码是关键，那这一句代码应该是在所有的触发条件之后，也就是说，对于漏洞的利用，是处于这一句代码之后。那么对于抛出异常的代码来说，在它之后的就是异常处理代码了。因此，要理解利用漏洞的原理，就要对异常处理代码进行审计。<br>　　关键的代码中，抛出的是<code>FileUploadException</code>异常，而该异常会被连续抛出，直至<code>JakartaMultiPartRequest</code>中的<code>parse</code>函数才进行捕捉处理，并且将异常交给了函数<code>buildErrorMessage</code>。<br><img src="/2017/09/11/Struts2-045和046分析/./1505114058719.png" alt="Alt text"><br>　　函数<code>buildErrorMessage</code>又将异常e传入了<code>findtext</code>函数<br><img src="/2017/09/11/Struts2-045和046分析/./1505114102104.png" alt="Alt text"><br><img src="/2017/09/11/Struts2-045和046分析/./1505114107282.png" alt="Alt text"><br>　　最终来到<code>getdefaultmessagereturnarg</code>函数，在这个函数中，将异常信息（<code>defaultmessage</code>）传给了<code>translateVaciabies</code>函数，异常信息中含有ognl表达式。<br><img src="/2017/09/11/Struts2-045和046分析/./1505114125419.png" alt="Alt text"><br><img src="/2017/09/11/Struts2-045和046分析/./1505114128852.png" alt="Alt text"><br>　　<code>TextParseUtil</code>的<code>translateVariables</code>方法是用于表达式语言评估的数据接收器。</p>
+<p>　　这里其实就是st2-045的真正触发点。漏洞触发的原因根本上来说，其实是含有ognl表达式的异常信息，传给了<code>TextParseUtil</code>的<code>translateVariables</code>，造成了代码执行。</p>
+<p>　　然后与最开始，从漏洞描述中得出的信息对比，发现1和2只是触发异常的方式，3也仅仅透露出异常会抛出错误信息，但没详细说是在执行的过程会有异常抛出，还是在抛出异常的时候，导致了漏洞的产生。</p>
+<ol>
+<li>恶意的Content-Type</li>
+<li>Content-Type 无效</li>
+<li>异常抛出错误信息<br>&ensp;</li>
+</ol>
+<p>而046，网上一开是的描述是同一触发点，但不同向量。由于我的环境搭建失败，没有尝试调试，但根据一些网上的异常信息，可以得出，046与045的区别，就是在与抛出异常的位置不同，即触发异常的方式不同，但却是同一个异常处理。</p>
+<p><a href="https://github.com/apache/struts/commit/352306493971e7d5a756d61780d57a76eb1f519a" target="_blank" rel="external">https://github.com/apache/struts/commit/352306493971e7d5a756d61780d57a76eb1f519a</a></p>
+<p>　　这个升级后，异常处理函数中，调用findtext函数时候，没有直接传入defaultmessage参数，而是默认传入null值，使得会传入TextParseUtil的translateVariables的message不会必定不会含有ognl表达式，所以可以彻底防御该问题。</p>
+<h3 id="0x03参考文档"><a href="#0x03参考文档" class="headerlink" title="0x03参考文档"></a>0x03参考文档</h3><p><a href="https://blog.gdssecurity.com/labs/2017/3/27/an-analysis-of-cve-2017-5638.html" target="_blank" rel="external">https://blog.gdssecurity.com/labs/2017/3/27/an-analysis-of-cve-2017-5638.html</a></p>
 
       
 
@@ -226,21 +213,6 @@
     <div class="article-info article-info-index">
       
       
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Android</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">linux</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
       
 
       
@@ -254,18 +226,9 @@
   
 <nav id="article-nav">
   
-    <a href="/2017/08/18/oat格式/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          oat格式(1)
-        
-      </div>
-    </a>
   
-  
-    <a href="/2017/08/09/first/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">first to say</div>
+    <a href="/2017/08/18/oat格式/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">oat格式(1)</div>
       <i class="icon-circle-right"></i>
     </a>
   
